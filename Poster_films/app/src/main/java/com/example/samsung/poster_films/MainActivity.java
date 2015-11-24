@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
                }
 
-title2="https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset=today&eventId="+"5575fb319c183f1beeeb7a38"+"&schedule-preset=today";
+title2="https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset=today&eventId="+href+"&schedule-preset=today";
                // https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset=today&eventId=564527987c65094b33cfd4d4
                 Document doc2=null;
                 try {
