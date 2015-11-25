@@ -24,13 +24,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
     private TextView textView2;
+    private ArrayList<Film> list=new ArrayList<Film>();
     public String title,title2;
-   // public String href=new String();
+
     private Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,9 +106,50 @@ public class MainActivity extends AppCompatActivity {
                 Elements elemnts = doc.select("div.events-list__list");
                 title = elemnts.html();
                 doc = Jsoup.parse(title);
-                Element element= doc.select("a").first();
-                title= element.attr("href");
-                String href= new String();
+                Elements hrefs= doc.select("a.link");
+                Elements spans=doc.select("span.event__name") ;
+                title=""+ hrefs.size()+" "+spans.size();
+                title2="";
+                for (int i=0, k=0; i<hrefs.size();i+=2)
+                {
+
+                    if(i!=14&i!=26) {
+                        Film flms=new Film();
+                        Element element = hrefs.get(i);
+                        Element name = spans.get(k);
+                        flms.setName(name.text());
+                        Log.d("Text", flms.getName());
+                        String text;
+
+                        text = element.attr("href") + " ";
+                        String href = new String();
+                        for (int j = 8; j < 32; j++) {
+                            href = href + text.charAt(j);
+
+                        }
+                        title2= "https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset=today&eventId="+href+"&schedule-preset=today";
+                        Document doc2=null;
+                        try {
+
+                            doc2 = Jsoup.connect(title2).get();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Element element2=doc2.select("p").first();
+                        flms.setText(element2.text());
+                        Log.d("Text", flms.getText());
+                        // element2=doc2.select("h1.event-heading__title").first();
+                       // flms.setName(element2.text());
+                       // Log.d("Text", flms.getName());
+                        element2=doc2.select("div.event-attributes__category-value").first();
+                         flms.setPremiere(element2.text());
+                        Log.d("Text", flms.getPremiere());
+                        list.add(flms);
+                        k++;
+                    }
+
+                }
+               /* String href= new String();
                 for(int i=8;i<32;i++)
                 {
                     href=href+title.charAt(i);
@@ -125,7 +168,7 @@ title2="https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset
                 Element element2=doc2.select("p").first();
                 title =element2.text();
                 element2=doc2.select("div.event-attributes__category-value").first();
-                title =title+"Прьемера "+element2.text();
+                title =title+"Прьемера "+element2.text();*/
 
             }
 
