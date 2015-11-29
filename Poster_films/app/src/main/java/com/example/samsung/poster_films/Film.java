@@ -7,7 +7,7 @@ import android.util.Log;
  * Created by Samsung on 24.11.2015.
  */
 public class Film {
-    private String Url;
+    public int id;
     private String Name;
     private String Text;
     private String Premiere;
@@ -15,7 +15,7 @@ public class Film {
 
     Film()
     {
-
+        id=0;
         Name=new String();
         Text=new String();
         Premiere=new String();
@@ -40,7 +40,7 @@ public class Film {
     {
         return Premiere;
     }
-
+  String  getJanere(){return Janere;}
 
 
     void setName(String s)

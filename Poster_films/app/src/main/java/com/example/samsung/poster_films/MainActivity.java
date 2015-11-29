@@ -10,13 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,32 +29,41 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView textView;
-    private TextView textView2;
+    Film buffer;
     private ArrayList<Film> list=new ArrayList<Film>();
     public String title,title2;
-
+    LinearLayout linearLayout;
+    ViewGroup.LayoutParams linLayoutParams;
+    int flag=0;
+    TextView tv;
     private Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        button =(Button)findViewById( R.id.button_1);
-        textView=(TextView)findViewById(R.id.TextView_1);
-        textView2=(TextView)findViewById(R.id.TextView_2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        linearLayout= new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linLayoutParams =new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        setContentView(linearLayout, linLayoutParams);
+        ViewGroup.LayoutParams lpView =new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+         tv= new TextView(this);
+        tv.setText("Wait");
+        button =new Button(this);
+        button.setText("отобразить список");
+        button.setClickable(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        button.setOnClickListener(this);
+        linearLayout.addView(tv);
+        linearLayout.addView(button);
+        MyTask mt = new MyTask();
+        mt.execute();
+        Log.d("Fak","Fuck");
+
+        Log.d("Fak","Fuck");
+
+
     }
 
     @Override
@@ -75,16 +87,47 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void ClickMe(View v)
-    {
-        textView.setText("Wait");
-        MyTask mt = new MyTask();
+
+    @Override
+    public void onClick(View v) {
+       // LinearLayout linearLayout1= new LinearLayout(this);
+       // linearLayout1.setOrientation(LinearLayout.VERTICAL);
+       // ViewGroup.LayoutParams linLayoutParams1 =new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        //setContentView(linearLayout1, linLayoutParams1);
+        //ViewGroup.LayoutParams lpView =new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        //TextView tv1= new TextView(this);
+        //tv1.setText(buffer.getName()+"\n"+buffer.getJanere()+"\n"+"Премьера: "+buffer.getPremiere()+"\n"+"Описание: "+buffer.getText()+"\n");
 
 
-        mt.execute();
+            for(int i=0;i<9;i++)
+            {Log.d("Fak","Fuck");
+                TextView text = new TextView(this);text.setText(list.get(i).getName() + "\n");
+                text.setClickable(true);
+                text.setOnClickListener(new MyClick(linearLayout,linLayoutParams,list.get(i),this));
 
 
+                linearLayout.addView(text);
+
+
+
+
+
+            }
+        flag=0;
+       // tv1.setClickable(true);
+        //tv1.setOnClickListener(this);
+   //     linearLayout1.addView(tv1);
     }
+    // public void ClickMe(View v)
+   // {
+   //     textView.setText("Wait");
+   //     MyTask mt = new MyTask();
+
+
+    //    mt.execute();
+
+
+   // }
     class MyTask extends AsyncTask<Void, Void, Void> {
 
 
@@ -108,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 doc = Jsoup.parse(title);
                 Elements hrefs= doc.select("a.event__link");
                 Elements spans=doc.select("span.event__name") ;
-                title=""+ hrefs.size()+" "+spans.size();
+                title="Выберите фильм";
                 title2="";
                 for (int i=0; i<hrefs.size()-3;i++)
                 {
@@ -147,8 +190,10 @@ public class MainActivity extends AppCompatActivity {
                          flms.setPremiere(element2.text());
                     Log.d("Text", flms.getPremiere());
                         flms.setJanere(element.text());
-                    Log.d("text",element.text());
+                    Log.d("text", element.text());
                         list.add(flms);
+                    if(i==9)
+                        flag=1;
 
 
 
@@ -177,7 +222,7 @@ title2="https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset
             }
 
             else
-                title = "Ошибка";
+                title = "Отсутствует интернет проверьте подклучено ли соединение";
             //Тут пишем основной код
 
             return null;
@@ -186,8 +231,8 @@ title2="https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            textView.setText(title);
-           textView2.setText(title2);
+            tv.setText(title);
+
             //Тут выводим итоговые данные
         }
     }
