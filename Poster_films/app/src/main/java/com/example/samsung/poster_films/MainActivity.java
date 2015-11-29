@@ -106,17 +106,17 @@ public class MainActivity extends AppCompatActivity {
                 Elements elemnts = doc.select("div.events-list__list");
                 title = elemnts.html();
                 doc = Jsoup.parse(title);
-                Elements hrefs= doc.select("a.link");
+                Elements hrefs= doc.select("a.event__link");
                 Elements spans=doc.select("span.event__name") ;
                 title=""+ hrefs.size()+" "+spans.size();
                 title2="";
-                for (int i=0, k=0; i<hrefs.size();i+=2)
+                for (int i=0; i<hrefs.size()-3;i++)
                 {
 
-                    if(i!=14&i!=26) {
+
                         Film flms=new Film();
                         Element element = hrefs.get(i);
-                        Element name = spans.get(k);
+                        Element name = spans.get(i);
                         flms.setName(name.text());
                         Log.d("Text", flms.getName());
                         String text;
@@ -127,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
                             href = href + text.charAt(j);
 
                         }
-                        title2= "https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset=today&eventId="+href+"&schedule-preset=today";
+                        title2+=href+"\n";
+                        Log.d("Text",href);
+                       title2= "https://afisha.yandex.by/events?city=minsk&source=menu&tag=cinema&preset=today&eventId="+href+"&schedule-preset=today";
                         Document doc2=null;
                         try {
 
@@ -143,10 +145,12 @@ public class MainActivity extends AppCompatActivity {
                        // Log.d("Text", flms.getName());
                         element2=doc2.select("div.event-attributes__category-value").first();
                          flms.setPremiere(element2.text());
-                        Log.d("Text", flms.getPremiere());
+                    Log.d("Text", flms.getPremiere());
+                        flms.setJanere(element.text());
+                    Log.d("text",element.text());
                         list.add(flms);
-                        k++;
-                    }
+
+
 
                 }
                /* String href= new String();
