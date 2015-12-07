@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 title = elemnts.html();
                 doc = Jsoup.parse(title);
                 Elements hrefs= doc.select("a.event__link");
-                Elements spans=doc.select("span.event__name") ;
+                Elements spans=doc.select("h2.event__name") ;
                 title="Выберите фильм";
                 title2="";
                 for (int i=0; i<hrefs.size()-3;i++)
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // element2=doc2.select("h1.event-heading__title").first();
                        // flms.setName(element2.text());
                        // Log.d("Text", flms.getName());
-                        element2=doc2.select("div.event-attributes__category-value").first();
+                        element2=doc2.select("dd.event-attributes__category-value").first();
                          flms.setPremiere(element2.text());
                     Log.d("Text", flms.getPremiere());
                         flms.setJanere(element.text());
