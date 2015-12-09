@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //tv1.setText(buffer.getName()+"\n"+buffer.getJanere()+"\n"+"Премьера: "+buffer.getPremiere()+"\n"+"Описание: "+buffer.getText()+"\n");
 
 
-            for(int i=0;i<9;i++)
+            for(int i=0;i<list.size();i++)
             {Log.d("Fak","Fuck");
                 TextView text = new TextView(this);text.setText(list.get(i).getName() + "\n");
                 text.setClickable(true);
@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             }
+        list.removeAll(list);
         flag=0;
        // tv1.setClickable(true);
         //tv1.setOnClickListener(this);
@@ -186,12 +187,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // element2=doc2.select("h1.event-heading__title").first();
                        // flms.setName(element2.text());
                        // Log.d("Text", flms.getName());
-                        element2=doc2.select("dd.event-attributes__category-value").first();
-                         flms.setPremiere(element2.text());
-                    Log.d("Text", flms.getPremiere());
+                    Log.d("Fak","Fuck1");
+
+
                         flms.setJanere(element.text());
                     Log.d("text", element.text());
                         list.add(flms);
+
                     if(i==9)
                         flag=1;
 

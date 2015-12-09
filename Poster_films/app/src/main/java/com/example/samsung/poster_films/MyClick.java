@@ -32,7 +32,7 @@ Film buffer;
             mainActivity.setContentView(linearLayout1, linLayoutParams1);
             ViewGroup.LayoutParams lpView = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             TextView tv1 = new TextView(mainActivity);
-            tv1.setText(buffer.getName() + "\n\n" + buffer.getJanere() + "\n\n" + "Премьера:   " + buffer.getPremiere() + "\n\n" + "Описание:   " + buffer.getText() + "\n");
+            tv1.setText(buffer.getName() + "\n\n" + buffer.getJanere() + "\n\n"  + "\n\n" + "Описание:   " + buffer.getText() + "\n");
             tv1.setClickable(true);
             tv1.setOnClickListener(this);
             linearLayout1.addView(tv1);
