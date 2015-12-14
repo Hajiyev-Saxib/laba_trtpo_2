@@ -1,6 +1,6 @@
 package com.example.samsung.poster_films;
 
-import android.nfc.Tag;
+
 import android.util.Log;
 
 /**

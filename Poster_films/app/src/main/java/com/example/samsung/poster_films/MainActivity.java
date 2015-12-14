@@ -189,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                        // Log.d("Text", flms.getName());
                     Log.d("Fak","Fuck1");
 
-
                         flms.setJanere(element.text());
                     Log.d("text", element.text());
                         list.add(flms);
